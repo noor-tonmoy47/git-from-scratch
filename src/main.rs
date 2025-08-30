@@ -1,10 +1,23 @@
 mod initialize;
-use std::env::args;
+use clap::{Subcommand, Parser};
 
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    #[command(subcommand)]
+    command: Commands
+}
+
+#[derive(Debug, Subcommand)]
+enum Commands {
+    Init
+}
 fn main() {
-    let command_args : Vec<String> = args().collect();
+    let args = Args::parse();
 
-    if command_args[1] == "init"{
-        initialize::init();
+    match args.command {
+        Commands::Init => {
+            initialize::init();
+        }
     }
 }
